@@ -1,6 +1,6 @@
 import csv
 
-from main import root_path
+from env import root_path
 from util.csv_reader import parse_cvs
 from model.hash_map import HashMap
 
