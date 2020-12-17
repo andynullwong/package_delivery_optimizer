@@ -1,10 +1,11 @@
 import csv
 
+from main import root_path
 from util.csv_reader import parse_cvs
-from util.hash_map import HashMap
+from model.hash_map import HashMap
 
-
-hub_hashmap = parse_cvs('../data/wgups_hub_file.csv')
+hub_hashmap = parse_cvs(root_path + '/data/wgups_hub_file.csv')
+address_to_hub_hashmap = parse_cvs(root_path + '/data/wgups_hub_file.csv', True)
 
 
 def get_distance_hashmap():
@@ -13,7 +14,7 @@ def get_distance_hashmap():
     for hub in hub_hashmap:
         distance_hm.add(hub[1], HashMap())
 
-    with open('../data/wgups_distance_table.csv') as distance_csv:
+    with open(root_path + '/data/wgups_distance_table.csv') as distance_csv:
         csv_reader = csv.reader(distance_csv)
         for distance_id, distance_list in enumerate(csv_reader):
             location1 = hub_hashmap.get(distance_id)
@@ -28,5 +29,6 @@ def get_distance_hashmap():
 
 distance_matrix = get_distance_hashmap()
 
-print(hub_hashmap.get(0))  # Western Governors University
-print(distance_matrix.get('Western Governors University').get('Cottonwood Regional Softball Complex'))  # 1.9
+# print(hub_hashmap.get(0))  # Western Governors University
+# print(distance_matrix.get('Western Governors University').get('Cottonwood Regional Softball Complex'))  # 1.9
+# print(address_to_hub_hashmap.get('195 W Oakland Ave'))  # South Salt Lake Public Works
