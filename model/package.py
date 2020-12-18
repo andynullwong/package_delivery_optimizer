@@ -1,15 +1,13 @@
-from dao.hub_dao import address_to_hub_hashmap, distance_matrix
+from dao.hub_dao import address_hub_map
 
 
 class Package:
-    def __init__(self, package_id, address, state, zipcode, deadline, notes):
+    def __init__(self, package_id, address):
         self.package_id = package_id
         self.address = address
-        self.hub_name = address_to_hub_hashmap.get(address)
-        self.state = state
-        self.zipcode = zipcode
-        self.deadline = deadline
-        self.notes = notes
+        self.hub_name = address_hub_map.get(address)
+        self.enroute = None
+        self.delivered = None
 
     def get_id(self):
         return self.package_id
@@ -17,9 +15,20 @@ class Package:
     def get_address(self):
         return self.address
 
+    def get_enroute(self):
+        return self.enroute
+
+    def get_delivered(self):
+        return self.delivered
+
+    def get_hub_name(self):
+        return self.hub_name
+
     def set_address(self, new_address):
         self.address = new_address
-        self.hub_name = address_to_hub_hashmap.get(new_address)
+        self.hub_name = address_hub_map.get(new_address)
 
-    def get_distance_to_hub(self, next_hub_name):
-        return float(distance_matrix.get(self.hub_name).get(next_hub_name))
+    def get_status(self, timestamp):
+        # status = "at_hub" if (self.enroute is None) else "en_route" if (self.delivered is None) else "delivered"
+        status = "delivered" if (self.delivered is not None and timestamp >= self.delivered) else "en_route" if (self.enroute is not None and timestamp >= self.enroute) else "at_hub"
+        return status
