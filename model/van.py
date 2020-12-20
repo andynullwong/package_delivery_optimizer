@@ -22,6 +22,11 @@ class Van:
         self.payload.append(package_id)
         return True
 
+    def update(self, package_id, address):
+        for package in self.payload:
+            if package_id == package.get_id():
+                package.set_address(address)
+
     def remove(self, hub_name):
         for idx, package in enumerate(self.payload):
             if package.get_hub_name() == hub_name:
@@ -38,7 +43,7 @@ class Van:
         return self.payload
 
     def get_mileage(self):
-        return self.mileage
+        return round(self.mileage, 1)
 
     def get_location(self):
         return self.location
@@ -54,18 +59,22 @@ class Van:
             next_hub, destination_miles = self.calculate_next()
             self.destination = next_hub
             self.destination_miles += destination_miles
-            print("Initial - Van", self.id, '|', self.location, '|', self.destination, '|', self.destination_miles)
+            return False
         else:
-            self.mileage += self.speed
+            if len(self.payload) != 0:
+                self.mileage += self.speed
             if self.destination_miles <= 0.0:
                 self.remove(self.destination)
                 next_hub, destination_miles = self.calculate_next()
                 self.location = self.destination
                 self.destination = next_hub
+                if self.location is self.destination:
+                    print("Van", self.id, '| Returned to Hub')
+                    return True
                 self.destination_miles += destination_miles
-                print("If - Van", self.id, '|', self.location, '|', self.destination, '|', self.destination_miles)
-                return True
-            print("Else - Van", self.id, '|', self.location, '|', self.destination, '|', self.destination_miles)
+                print("Van", self.id, '|', self.location, '|', self.destination, '|', self.destination_miles)
+                return False
             self.destination_miles -= self.speed
+            print("Van", self.id, '|', self.location, '|', self.destination, '|', self.destination_miles)
             return False
         return False

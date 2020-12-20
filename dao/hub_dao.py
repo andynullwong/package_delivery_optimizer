@@ -9,7 +9,11 @@ address_hub_map = parse_string_cvs(root_path + '/data/wgups_hub_file.csv', 2, 1)
 
 
 def get_distance_to_hub(current_hub_name, next_hub_name):
-    return float(distance_matrix.get(current_hub_name).get(next_hub_name))
+    distance = distance_matrix.get(current_hub_name).get(next_hub_name)
+    if distance is not None:
+        return float(distance)
+    else:
+        return 0.0
 
 
 def get_distance_hashmap():
@@ -32,7 +36,3 @@ def get_distance_hashmap():
 
 
 distance_matrix = get_distance_hashmap()
-
-# print(hub_hashmap.get(0))  # Western Governors University
-# print(distance_matrix.get('Western Governors University').get('Cottonwood Regional Softball Complex'))  # 1.9
-# print(address_to_hub_hashmap.get('195 W Oakland Ave'))  # South Salt Lake Public Works
