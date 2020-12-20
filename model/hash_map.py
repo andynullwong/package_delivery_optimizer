@@ -1,6 +1,6 @@
 class HashMap:
-    def __init__(self):
-        self.capacity = 32
+    def __init__(self, capacity=64):
+        self.capacity = capacity
         self.length = 0
         self.map = [[] for _ in range(self.capacity)]
         self.iterator = 0
@@ -19,7 +19,7 @@ class HashMap:
                 self.iterator1 += 1
                 self.iterator2 = 0
             value = self.map[self.iterator1][self.iterator2]
-            if self.iterator2 == len(self.map[self.iterator1])-1:
+            if self.iterator2 == len(self.map[self.iterator1]) - 1:
                 self.iterator1 += 1
                 self.iterator2 = 0
             else:
@@ -47,15 +47,17 @@ class HashMap:
         if self.map[key_hash] is None:
             self.map[key_hash] = list([key_value])
             self.length += 1
-            return True
         else:
             for pair in self.map[key_hash]:
                 if pair[0] == key:
                     pair[1] = value
-                    return True
             self.map[key_hash].append(key_value)
             self.length += 1
-            return True
+
+        # If capacity hits 75%, double capacity
+        if self.length / self.capacity >= 0.75:
+            self.capacity *= 2
+            self.map = self.resize(self.capacity)
 
     def delete(self, key):
         key_hash = self._get_hash(key)
@@ -66,11 +68,11 @@ class HashMap:
             if self.map[key_hash][i][0] == key:
                 self.map[key_hash].pop(i)
                 self.length -= 1
-                # if len(self.map[key_hash]) == 0:
-                #     self.map[key_hash] = None
                 return True
         return False
 
-    def print(self):
-        for row in self.map:
-            print(row)
+    def resize(self, new_capacity):
+        new_hashmap = HashMap(new_capacity)
+        for entry in self:
+            new_hashmap.add(entry[0], entry[1])
+        return new_hashmap.map

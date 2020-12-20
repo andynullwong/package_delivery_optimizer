@@ -16,13 +16,13 @@ van3 = Van(3)
 for package_id in package_id_list_1:
     package_address = package_id_address_map.get(package_id)
     package = Package(package_id, package_address)
-    package.set_enroute(clock.get_time())
+    package.set_enroute(string_to_timestamp("2020-01-01 08:00:00"))
     van1.add(package)
 
 for package_id in package_id_list_2:
     package_address = package_id_address_map.get(package_id)
     package = Package(package_id, package_address)
-    package.set_enroute(clock.get_time())
+    package.set_enroute(string_to_timestamp("2020-01-01 09:05:00"))
     van2.add(package)
 
 for package_id in package_id_list_3:

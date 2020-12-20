@@ -35,7 +35,13 @@ class Package:
         self.delivered = timestamp
 
     def get_status(self, timestamp):
-        # status = "at_hub" if (self.enroute is None) else "en_route" if (self.delivered is None) else "delivered"
         status = "delivered" if (self.delivered is not None and timestamp >= self.delivered) else "en_route" if (
                 self.enroute is not None and timestamp >= self.enroute) else "at_hub"
+        # status = "at_hub"
+        # if timestamp >= self.enroute:
+        #     print(timestamp)
+        #     print(self.enroute)
+        #     status = "en_route"
+        # if timestamp >= self.delivered:
+        #     status = "delivered"
         return status
