@@ -1,7 +1,9 @@
 import math
 
-from dao.hub_dao import get_distance_to_hub, id_hub_map
+from dao.hub_dao import get_distance_to_hub
 from env import root_path, default_hub
+from model.clock import clock
+from model.package import Package
 from util.csv_reader import parse_cvs, reverse_parse_cvs
 
 package_id_address_map = parse_cvs(root_path + '/data/wgups_package_file.csv')
@@ -23,3 +25,18 @@ def get_nearest_package(current_hub, van_payload):
     else:
         default_distance = get_distance_to_hub(current_hub, default_hub)
         return default_hub, default_distance
+
+
+def load_packages_in_van(van_id, van, package_list: list[int]):
+    van_loaded = [False, False, False]
+
+    def load():
+        if not van_loaded[van_id - 1]:
+            for package_id in package_list:
+                package_address = package_id_address_map.get(package_id)
+                package = Package(package_id, package_address)
+                package.set_enroute(clock.get_time())
+                van.add(package)
+            van_loaded[van_id - 1] = True
+
+    return load

@@ -1,5 +1,7 @@
-from dao.package_dao import get_nearest_package, package_address_id_map
+from dao.history_dao import package_history
+from dao.package_dao import get_nearest_package
 from env import default_hub
+from model.clock import clock
 
 
 class Van:
@@ -30,7 +32,9 @@ class Van:
     def remove(self, hub_name):
         for idx, package in enumerate(self.payload):
             if package.get_hub_name() == hub_name:
-                print("Van", self.id, "unloaded package", package.get_id(), "at", package.get_hub_name())
+                package.set_delivered(clock.get_time())
+                package_history.add(package.get_id(), package)
+                # print("Van", self.id, "unloaded package", package.get_id(), "at", package.get_hub_name())
                 del self.payload[idx]
 
     def add_mileage(self, mileage):
@@ -54,7 +58,7 @@ class Van:
     def calculate_next(self):
         return get_nearest_package(self.location, self.payload)
 
-    def tick(self, initial=False):
+    def tick(self, initial=False) -> bool:
         if initial:
             next_hub, destination_miles = self.calculate_next()
             self.destination = next_hub
@@ -77,4 +81,3 @@ class Van:
             self.destination_miles -= self.speed
             print("Van", self.id, '|', self.location, '|', self.destination, '|', self.destination_miles)
             return False
-        return False

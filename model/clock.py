@@ -1,6 +1,10 @@
 from datetime import datetime, timedelta
 
 
+def string_to_timestamp(string):
+    return datetime.strptime(string, "%Y-%m-%d %H:%M:%S")
+
+
 class Clock:
     def __init__(self):
         self.time = datetime(2020, 1, 1, 8, 0)  # 2020, January 1, 8:00
@@ -13,3 +17,7 @@ class Clock:
 
     def tick(self):
         self.time += timedelta(hours=0, minutes=1)
+
+
+# Initialize Clock
+clock = Clock()

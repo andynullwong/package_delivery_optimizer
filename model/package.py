@@ -28,7 +28,14 @@ class Package:
         self.address = new_address
         self.hub_name = address_hub_map.get(new_address)
 
+    def set_enroute(self, timestamp):
+        self.enroute = timestamp
+
+    def set_delivered(self, timestamp):
+        self.delivered = timestamp
+
     def get_status(self, timestamp):
         # status = "at_hub" if (self.enroute is None) else "en_route" if (self.delivered is None) else "delivered"
-        status = "delivered" if (self.delivered is not None and timestamp >= self.delivered) else "en_route" if (self.enroute is not None and timestamp >= self.enroute) else "at_hub"
+        status = "delivered" if (self.delivered is not None and timestamp >= self.delivered) else "en_route" if (
+                self.enroute is not None and timestamp >= self.enroute) else "at_hub"
         return status
