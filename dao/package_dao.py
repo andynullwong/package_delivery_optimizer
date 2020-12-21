@@ -4,9 +4,9 @@ from dao.hub_dao import get_distance_to_hub
 from env import root_path, default_hub
 from model.clock import clock
 from model.package import Package
-from util.csv_reader import parse_cvs, reverse_parse_cvs
+from util.csv_reader import reverse_parse_cvs, parse_package_file
 
-package_id_address_map = parse_cvs(root_path + '/data/wgups_package_file.csv')
+package_id_address_map = parse_package_file()
 package_address_id_map = reverse_parse_cvs(root_path + '/data/wgups_package_file.csv')
 
 

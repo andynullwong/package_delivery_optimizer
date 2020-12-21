@@ -15,5 +15,8 @@ def get(package_id) -> Package:
 def history(package_id, timestamp):
     package = get(package_id)
     print("Package ID:", package.get_id())
-    print("Package Address", package.get_address())
+    print("Package Address:", package.get_address())
+    print("Package Deadline:", package.get_deadline())
+    print("Package Zipcode:", package.get_zipcode())
+    print("Package Weight:", package.get_weight())
     print("Package Status", package.get_status(timestamp))

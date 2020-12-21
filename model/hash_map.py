@@ -13,6 +13,7 @@ class HashMap:
     def __iter__(self):
         return self
 
+    # Magic method to allow HashMaps to be iterable
     def __next__(self):
         if self.iterator < self.length:
             while len(self.map[self.iterator1]) == 0:
@@ -71,6 +72,7 @@ class HashMap:
                 return True
         return False
 
+    # Resizes HashMap when hitting a condition (75% usage in this case)
     def resize(self, new_capacity):
         new_hashmap = HashMap(new_capacity)
         for entry in self:

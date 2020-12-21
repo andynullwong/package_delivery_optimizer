@@ -8,6 +8,7 @@ id_hub_map = parse_cvs(root_path + '/data/wgups_hub_file.csv')
 address_hub_map = parse_string_cvs(root_path + '/data/wgups_hub_file.csv', 2, 1)
 
 
+# Helper function to lookup distance between two locations
 def get_distance_to_hub(current_hub_name, next_hub_name):
     distance = distance_matrix.get(current_hub_name).get(next_hub_name)
     if distance is not None:
@@ -16,8 +17,8 @@ def get_distance_to_hub(current_hub_name, next_hub_name):
         return 0.0
 
 
+# 2D HashMap to create a matrix of distances between every combination of two hubs
 def get_distance_hashmap():
-    # Initialize Empty nested hashmap
     distance_hm = HashMap()
     for hub in id_hub_map:
         distance_hm.add(hub[1], HashMap())

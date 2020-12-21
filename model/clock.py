@@ -19,5 +19,5 @@ class Clock:
         self.time += timedelta(hours=0, minutes=1)
 
 
-# Initialize Clock
+# Initialize Global Clock as single source of time management
 clock = Clock()
